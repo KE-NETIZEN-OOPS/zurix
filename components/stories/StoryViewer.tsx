@@ -7,7 +7,15 @@ interface Story { id: string; media_url: string; media_type?: string; music_url?
 export default function StoryViewer({ stories, startIndex, onClose }: { stories: Story[]; startIndex: number; onClose: () => void }) {
   const [current, setCurrent] = useState(startIndex)
   const [progress, setProgress] = useState(0)
+  const [soundOn, setSoundOn] = useState(true)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  function toggleSound(e: React.MouseEvent) {
+    e.stopPropagation()
+    const a = audioRef.current
+    if (!a || !a.src) { setSoundOn(s => !s); return }
+    if (a.paused) { a.play().then(() => setSoundOn(true)).catch(() => {}) } else { a.pause(); setSoundOn(false) }
+  }
 
   const story = stories[current]
   const isVideo = story.media_type === 'video' || /\.(mp4|webm|mov)$/i.test(story.media_url)
@@ -17,7 +25,7 @@ export default function StoryViewer({ stories, startIndex, onClose }: { stories:
     // music
     if (!audioRef.current) audioRef.current = new Audio()
     const a = audioRef.current
-    if (story.music_url) { a.src = story.music_url; a.volume = 0.7; a.play().catch(() => {}) } else { a.pause() }
+    if (story.music_url) { a.src = story.music_url; a.volume = 0.7; a.play().then(() => setSoundOn(true)).catch(() => setSoundOn(false)) } else { a.pause() }
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -53,7 +61,11 @@ export default function StoryViewer({ stories, startIndex, onClose }: { stories:
           {u.avatar_url && <Image src={u.avatar_url} alt="" fill className="object-cover" unoptimized />}
         </div>
         <span className="text-white text-sm font-medium">{u.display_name}</span>
-        {story.music_url && <span className="text-white text-xs flex items-center gap-1">🎵 <span className="truncate max-w-[120px]">{story.music_title}</span></span>}
+        {story.music_url && (
+          <button onClick={toggleSound} className="text-white text-xs flex items-center gap-1">
+            {soundOn ? '🔊' : '🔇'} <span className="truncate max-w-[110px]">{story.music_title}</span>
+          </button>
+        )}
         <button onClick={e => { e.stopPropagation(); onClose() }} className="ml-auto text-white text-xl">✕</button>
       </div>
       <div className="flex-1 relative">

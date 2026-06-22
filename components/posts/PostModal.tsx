@@ -17,14 +17,21 @@ export interface PostData {
 export default function PostModal({ post, onClose }: { post: PostData; onClose: () => void }) {
   const [likes, setLikes] = useState(post.likes_count)
   const [liked, setLiked] = useState(false)
+  const [musicOn, setMusicOn] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
-    if (post.music_url && audioRef.current) {
-      audioRef.current.volume = 0.6
-      audioRef.current.play().catch(() => {})
+    const a = audioRef.current
+    if (post.music_url && a) {
+      a.volume = 0.7
+      a.play().then(() => setMusicOn(true)).catch(() => setMusicOn(false))
     }
   }, [post.music_url])
+
+  function toggleMusic() {
+    const a = audioRef.current; if (!a) return
+    if (a.paused) { a.play().then(() => setMusicOn(true)).catch(() => {}) } else { a.pause(); setMusicOn(false) }
+  }
 
   async function like() {
     if (liked) return
@@ -55,11 +62,12 @@ export default function PostModal({ post, onClose }: { post: PostData; onClose: 
             : <Image src={url} alt={post.caption ?? ''} width={500} height={500} className="max-h-[60vh] w-auto object-contain" unoptimized />
           )}
           {post.music_url && (
-            <div className="absolute bottom-2 left-2 right-2 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-xs">
-              <span className="animate-pulse">🎵</span>
-              <span className="truncate">{post.music_title ?? 'Audio'}</span>
+            <button onClick={toggleMusic} className="absolute bottom-2 left-2 right-2 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-xs">
+              <span className={musicOn ? 'animate-pulse' : ''}>🎵</span>
+              <span className="truncate flex-1 text-left">{post.music_title ?? 'Audio'}</span>
+              <span>{musicOn ? '⏸ Pause' : '▶ Play'}</span>
               <audio ref={audioRef} src={post.music_url} loop />
-            </div>
+            </button>
           )}
         </div>
         <div className="p-3 flex flex-col gap-2">

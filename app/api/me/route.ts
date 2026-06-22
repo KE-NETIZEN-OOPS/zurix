@@ -14,7 +14,7 @@ export async function PATCH(req: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json()
-  const allowed = ['display_name', 'bio', 'gender', 'location_city', 'interests', 'looking_for', 'hide_data', 'avatar_url', 'phone', 'theme']
+  const allowed = ['display_name', 'bio', 'gender', 'location_city', 'interests', 'looking_for', 'hide_data', 'avatar_url', 'phone', 'theme', 'latitude', 'longitude']
   const updates: Record<string, unknown> = {}
   for (const key of allowed) { if (key in body) updates[key] = body[key] }
   // Auto-verify once a member completes their profile (avatar set).

@@ -55,18 +55,19 @@ create policy "Library + own tracks visible" on public.music_tracks
 create policy "Users upload own tracks" on public.music_tracks
   for insert with check (auth.uid() = uploaded_by);
 
--- Seed a curated royalty-free library (Mixkit / Pixabay free-to-use tracks)
+-- Seed a curated royalty-free library. SoundHelix tracks are reliably
+-- hotlinkable for cross-origin <audio> playback (Mixkit previews block it).
 insert into public.music_tracks (title, artist, url, duration_secs, is_library) values
-  ('Sunny Vibes', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-sun-and-his-daughter-580.mp3', 30, true),
-  ('Dreaming Big', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3', 30, true),
-  ('Serene View', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3', 30, true),
-  ('Tech House Vibes', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3', 30, true),
-  ('Hip Hop Beat', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-738.mp3', 30, true),
-  ('Driving Ambition', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-driving-ambition-32.mp3', 30, true),
-  ('Raising Me Higher', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-raising-me-higher-34.mp3', 30, true),
-  ('Feeling Happy', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-feeling-happy-5.mp3', 30, true),
-  ('Summer Fun', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-summer-fun-13.mp3', 30, true),
-  ('Deep Urban', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-deep-urban-623.mp3', 30, true),
-  ('Chill Abstract', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-chill-abstract-intro-933.mp3', 30, true),
-  ('Games Worldbeat', 'Mixkit', 'https://assets.mixkit.co/music/preview/mixkit-games-worldbeat-466.mp3', 30, true)
+  ('Vibe One', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 30, true),
+  ('Night Drive', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 30, true),
+  ('Golden Hour', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 30, true),
+  ('Slow Burn', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 30, true),
+  ('City Lights', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 30, true),
+  ('Heatwave', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 30, true),
+  ('Afterglow', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', 30, true),
+  ('Moonlit', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', 30, true),
+  ('Pulse', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3', 30, true),
+  ('Daydream', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3', 30, true),
+  ('Velvet', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3', 30, true),
+  ('Skyline', 'SoundHelix', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3', 30, true)
 on conflict do nothing;

@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { tierLabel, type Tier } from '@/lib/tiers'
 import FollowListModal from '@/components/profile/FollowListModal'
 import PostModal, { type PostData } from '@/components/posts/PostModal'
+import VerifyButton from '@/components/verify/VerifyButton'
 
 export default function MyProfilePage() {
   const router = useRouter()
@@ -73,9 +74,7 @@ export default function MyProfilePage() {
       )}
 
       {!me.is_verified && (
-        <div className="bg-[var(--accent)]/10 border border-[var(--accent)]/40 rounded-xl p-3 mb-4 text-sm">
-          ⚠ Add a profile photo in <Link href="/settings" className="text-[var(--accent)] underline">Settings</Link> to get verified and unlock messaging.
-        </div>
+        <div className="mb-4"><VerifyButton userId={me.id} /></div>
       )}
 
       <div className="flex gap-3 mb-8">
