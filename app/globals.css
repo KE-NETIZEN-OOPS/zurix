@@ -4,17 +4,31 @@
 
 :root {
   --bg: #0a0a0a;
+  --card: #18181b;
+  --border: #27272a;
   --accent: #f59e0b;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
 }
 
 body {
-  background-color: #0a0a0a;
-  color: #f4f4f5;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #71717a55; border-radius: 4px; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Instagram-style camera/story filters */
+.filter-none { filter: none; }
+.filter-warm { filter: saturate(1.4) sepia(0.25) contrast(1.05); }
+.filter-cool { filter: saturate(1.1) hue-rotate(-15deg) brightness(1.05); }
+.filter-mono { filter: grayscale(1) contrast(1.1); }
+.filter-vivid { filter: saturate(1.8) contrast(1.15); }
+.filter-fade { filter: contrast(0.9) brightness(1.1) saturate(0.8); }
+.filter-noir { filter: grayscale(1) contrast(1.4) brightness(0.9); }
+.filter-dream { filter: blur(0.4px) saturate(1.3) brightness(1.08) contrast(0.95); }
